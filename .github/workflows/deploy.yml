@@ -7,7 +7,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  OWNER: broken-lad   # <--- ALWAYS lowercase
+  OWNER: broken-lad
 
 jobs:
   build:
