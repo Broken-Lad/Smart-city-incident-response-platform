@@ -1,0 +1,26 @@
+### Get all incidents
+GET http://localhost:8080/api/dashboard/incidents
+Accept: application/json
+
+###
+
+### Get a single incident by ID
+GET http://localhost:8080/api/dashboard/incidents/1
+Accept: application/json
+
+###
+
+### Create a new incident
+POST http://localhost:8080/api/dashboard/incidents
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "Test Incident",
+  "date": "2025-12-02",
+  "safetyRegion": "UTRECHT",
+  "gpsLocation": "52.0907,5.1214",
+  "threatLevel": "HIGH",
+  "type": "CYBER_ATTACK",
+  "status": "ONGOING"
+}

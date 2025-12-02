@@ -1,0 +1,11 @@
+package nl.hu.inno.incidentendashboard.exception
+
+import java.util.*
+
+data class ExceptionBody(
+    val timestamp: Date = Date(),
+    val status: Int,
+    val error: String,
+    val message: String?,
+    val path: String?
+)

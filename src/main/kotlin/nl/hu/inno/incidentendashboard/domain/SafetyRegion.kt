@@ -1,6 +1,7 @@
 package nl.hu.inno.incidentendashboard.domain
 
 enum class SafetyRegion {
+    EMPTY,
     GRONINGEN,
     FRIESLAND,
     DRENTHE,
