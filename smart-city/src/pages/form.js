@@ -1,28 +1,27 @@
 export function renderForm(viteLogo, javascriptLogo) {
   return `
-    <div style="max-width:600px;margin:2rem auto;">
+    <div>
       <h1>Report New Incident</h1>
-      <form id="incidentForm" style="display:flex;flex-direction:column;gap:1rem;">
+      <form id="incidentForm">
         <div>
           <label for="name">Incident Name:</label>
-          <input type="text" id="name" name="name" required style="width:100%;padding:0.5rem;border:1px solid #ccc;border-radius:4px;" />
+          <input type="text" id="name" name="name" required/>
         </div>
         
         <div>
           <label for="date">Date:</label>
-          <input type="date" id="date" name="date" required style="width:100%;padding:0.5rem;border:1px solid #ccc;border-radius:4px;" />
+          <input type="date" id="date" name="date" required/>
         </div>
         
         <div>
           <label for="gpsLocation">GPS Location:</label>
-          <input type="text" id="gpsLocation" name="gpsLocation" placeholder="e.g., 52.5200,13.4050" required style="width:100%;padding:0.5rem;border:1px solid #ccc;border-radius:4px;" />
+          <input type="text" id="gpsLocation" name="gpsLocation" placeholder="e.g., 52.5200,13.4050" required/>
         </div>
         
         <div>
           <label for="threatLevel">Threat Level:</label>
-          <select id="threatLevel" name="threatLevel" required style="width:100%;padding:0.5rem;border:1px solid #ccc;border-radius:4px;">
+          <select id="threatLevel" name="threatLevel" required>
             <option value="">-- Select --</option>
-            <option value="EMPTY">Empty</option>
             <option value="LOW">Low</option>
             <option value="MEDIUM">Medium</option>
             <option value="HIGH">High</option>
@@ -31,20 +30,22 @@ export function renderForm(viteLogo, javascriptLogo) {
         
         <div>
           <label for="type">Incident Type:</label>
-          <select id="type" name="type" required style="width:100%;padding:0.5rem;border:1px solid #ccc;border-radius:4px;">
+          <select id="type" name="type" required>
             <option value="">-- Select --</option>
-            <option value="EMPTY">Empty</option>
             <option value="WEATHER">Weather</option>
             <option value="TRAFFIC">Traffic</option>
             <option value="CRIME">Crime</option>
+            <option value="CYBER_ATTACK">Cyber Attack</option>
+            <option value="FIRE">Fire</option>
+            <option value="MEDICAL_EMERGENCY">Medical Emergency</option>
+            <option value="POWER_OUTAGE">Power Outage</option>
           </select>
         </div>
         
         <div>
           <label for="status">Status:</label>
-          <select id="status" name="status" required style="width:100%;padding:0.5rem;border:1px solid #ccc;border-radius:4px;">
+          <select id="status" name="status" required>
             <option value="">-- Select --</option>
-            <option value="EMPTY">Empty</option>
             <option value="ONGOING">Ongoing</option>
             <option value="RESOLVED">Resolved</option>
             <option value="PLANNED">Planned</option>
@@ -53,9 +54,8 @@ export function renderForm(viteLogo, javascriptLogo) {
         
         <div>
           <label for="safetyRegion">Safety Region:</label>
-          <select id="safetyRegion" name="safetyRegion" required style="width:100%;padding:0.5rem;border:1px solid #ccc;border-radius:4px;">
+          <select id="safetyRegion" name="safetyRegion" required>
             <option value="">-- Select --</option>
-            <option value="EMPTY">Empty</option>
             <option value="GRONINGEN">Groningen</option>
             <option value="FRIESLAND">Friesland</option>
             <option value="DRENTHE">Drenthe</option>
@@ -84,9 +84,9 @@ export function renderForm(viteLogo, javascriptLogo) {
           </select>
         </div>
         
-        <button type="submit" style="padding:0.75rem;background:#007bff;color:white;border:none;border-radius:4px;cursor:pointer;font-weight:bold;">Submit Incident Report</button>
+        <button type="submit" style="margin: 25px;">Submit Incident Report</button>
       </form>
-      <div id="message" style="margin-top:1rem;padding:0.75rem;border-radius:4px;display:none;"></div>
+      <div id="message"></div>
     </div>
 
     <img width="300" height="200" src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fmedia1.tenor.com%2Fm%2FnuuxiBetq8oAAAAd%2Fcharles-leclerc-inchident.gif&f=1&nofb=1&ipt=489efca06723ac8d6fe09524e88262dc01078e5319ec8b0d3c2668dcf2615eaa" alt="Just an inchident" />
@@ -115,20 +115,14 @@ export function renderForm(viteLogo, javascriptLogo) {
           
           if (response.ok) {
             messageDiv.textContent = 'Incident report submitted';
-            messageDiv.style.background = '#d4edda';
-            messageDiv.style.color = '#155724';
             messageDiv.style.display = 'block';
             document.getElementById('incidentForm').reset();
           } else {
             messageDiv.textContent = 'Error submitting incident: ' + response.statusText;
-            messageDiv.style.background = '#f8d7da';
-            messageDiv.style.color = '#721c24';
             messageDiv.style.display = 'block';
           }
         } catch (error) {
           messageDiv.textContent = 'Network error: ' + error.message;
-          messageDiv.style.background = '#f8d7da';
-          messageDiv.style.color = '#721c24';
           messageDiv.style.display = 'block';
         }
       });
