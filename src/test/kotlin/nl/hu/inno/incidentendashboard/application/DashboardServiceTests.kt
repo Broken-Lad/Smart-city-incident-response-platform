@@ -1,4 +1,4 @@
-package  nl.hu.inno.incidentendashboard.application
+package nl.hu.inno.incidentendashboard.application
 
 import nl.hu.inno.incidentendashboard.data.IncidentRepository
 import nl.hu.inno.incidentendashboard.domain.*
@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.mockito.Mockito.*
 import java.time.LocalDate
-import java.util.*
 
 class DashboardServiceTest {
 
@@ -18,8 +17,13 @@ class DashboardServiceTest {
     @Test
     fun `getIncident returns incident when found`() {
         val incident = Incident.of(
-            "Test", LocalDate.now(), SafetyRegion.MIDDEN, "gps",
-            ThreatLevel.HIGH, IncidentType.BRAND, Status.ACTIVE
+            "Stormschade",
+            LocalDate.now(),
+            SafetyRegion.UTRECHT,
+            "52.0907, 5.1214",
+            Threatlevel.HIGH,
+            IncidentType.WEATHER,
+            Status.ONGOING
         )
 
         `when`(repository.findByIdOrNull(1L)).thenReturn(incident)
@@ -42,8 +46,9 @@ class DashboardServiceTest {
     }
 
     @Test
-    fun `getAllIncidents returns list from repository`() {
+    fun `getAllIncidents returns list`() {
         val list = listOf(mock(Incident::class.java))
+
         `when`(repository.findAll()).thenReturn(list)
 
         val result = service.getAllIncidents()
@@ -53,22 +58,32 @@ class DashboardServiceTest {
     }
 
     @Test
-    fun `createIncident creates and saves incident with correct values`() {
+    fun `createIncident creates and saves incident`() {
         val date = LocalDate.of(2024, 1, 1)
 
         val expected = Incident.of(
-            "Naam", date, SafetyRegion.NOORD, "gps",
-            ThreatLevel.LOW, IncidentType.ONGEVAL, Status.NEW
+            "Botsing A12",
+            date,
+            SafetyRegion.ZUID_HOLLAND_ZUID,
+            "51.833, 4.642",
+            Threatlevel.MEDIUM,
+            IncidentType.TRAFFIC,
+            Status.PLANNED
         )
 
         `when`(repository.save(any(Incident::class.java))).thenReturn(expected)
 
         val result = service.createIncident(
-            "Naam", date, "NOORD", "gps", "LOW", "ONGEVAL", "NEW"
+            name = "Botsing A12",
+            date = date,
+            safetyRegion = "ZUID_HOLLAND_ZUID",
+            gpsLocation = "51.833, 4.642",
+            threatLevel = "MEDIUM",
+            type = "TRAFFIC",
+            status = "PLANNED"
         )
 
         assertEquals(expected, result)
-
         verify(repository).save(any(Incident::class.java))
     }
 }

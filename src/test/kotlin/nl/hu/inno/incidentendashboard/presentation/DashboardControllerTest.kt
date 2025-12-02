@@ -25,10 +25,15 @@ class DashboardControllerTest(
     lateinit var service: DashboardService
 
     @Test
-    fun `GET incident returns 200 and body`() {
+    fun `GET incident returns 200 with body`() {
         val incident = Incident.of(
-            "TestInc", LocalDate.now(), SafetyRegion.NOORD,
-            "gps", ThreatLevel.HIGH, IncidentType.BRAND, Status.ACTIVE
+            "Stormschade",
+            LocalDate.of(2024,2,1),
+            SafetyRegion.FLEVOLAND,
+            "52.5, 5.7",
+            Threatlevel.HIGH,
+            IncidentType.WEATHER,
+            Status.ONGOING
         )
 
         `when`(service.getIncident(1L)).thenReturn(incident)
@@ -43,8 +48,13 @@ class DashboardControllerTest(
     @Test
     fun `GET all incidents returns list`() {
         val incident = Incident.of(
-            "Test", LocalDate.now(), SafetyRegion.NOORD,
-            "gps", ThreatLevel.MEDIUM, IncidentType.ONGEVAL, Status.NEW
+            "A2 file",
+            LocalDate.of(2024,2,2),
+            SafetyRegion.UTRECHT,
+            "52.10, 5.11",
+            Threatlevel.LOW,
+            IncidentType.TRAFFIC,
+            Status.PLANNED
         )
 
         `when`(service.getAllIncidents()).thenReturn(listOf(incident))
@@ -57,28 +67,36 @@ class DashboardControllerTest(
     }
 
     @Test
-    fun `POST incident calls service and returns created incident`() {
+    fun `POST incident returns created instance`() {
         val dto = IncidentRequest(
-            name = "Naam",
-            date = LocalDate.of(2024,1,1),
-            safetyRegion = "NOORD",
-            gpsLocation = "gps",
-            threatLevel = "LOW",
-            type = "ONGEVAL",
-            status = "NEW"
+            name = "Diefstal centrum",
+            date = LocalDate.of(2024, 3, 1),
+            safetyRegion = "AMSTERDAM_AMSTELLAND",
+            gpsLocation = "52.37, 4.90",
+            threatLevel = "MEDIUM",
+            type = "CRIME",
+            status = "RESOLVED"
         )
 
         val incident = Incident.of(
-            "Naam", dto.date, SafetyRegion.NOORD,
-            "gps", ThreatLevel.LOW, IncidentType.ONGEVAL, Status.NEW
+            dto.name,
+            dto.date,
+            SafetyRegion.AMSTERDAM_AMSTELLAND,
+            dto.gpsLocation,
+            Threatlevel.MEDIUM,
+            IncidentType.CRIME,
+            Status.RESOLVED
         )
 
-        `when`(
-            service.createIncident(
-                dto.name, dto.date, dto.safetyRegion,
-                dto.gpsLocation, dto.threatLevel, dto.type, dto.status
-            )
-        ).thenReturn(incident)
+        `when`(service.createIncident(
+            dto.name,
+            dto.date,
+            dto.safetyRegion,
+            dto.gpsLocation,
+            dto.threatLevel,
+            dto.type,
+            dto.status
+        )).thenReturn(incident)
 
         mockMvc.post("/api/dashboard/incidents") {
             contentType = MediaType.APPLICATION_JSON
