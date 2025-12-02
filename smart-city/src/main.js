@@ -1,5 +1,3 @@
-
-
 import './style.css';
 import viteLogo from '/vite.svg';
 import javascriptLogo from './javascript.svg';
@@ -7,6 +5,8 @@ import { renderHome } from './pages/home.js';
 import { renderAbout } from './pages/about.js';
 import { renderForm } from './pages/form.js';
 import { renderDashboard } from './pages/dashboard.js';
+import { initFormHandler } from './formHandler.js';
+
 
 function setActiveNav(page) {
   document.querySelectorAll('.top-nav a').forEach(a => {
@@ -22,6 +22,7 @@ function renderPage(page) {
       app.innerHTML = renderAbout();
     } else if (page === 'form') {
       app.innerHTML = renderForm(viteLogo, javascriptLogo);
+      initFormHandler();
     } else if (page === 'dashboard') {
       app.innerHTML = renderDashboard();
     } else if (page === 'threatmodel') {
@@ -52,3 +53,4 @@ window.addEventListener('hashchange', () => {
   const page = window.location.hash.replace('#', '') || 'home';
   renderPage(page);
 });
+
