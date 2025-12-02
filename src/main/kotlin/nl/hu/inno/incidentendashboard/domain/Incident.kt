@@ -5,11 +5,11 @@ import java.time.LocalDate
 class Incident(
     val id: Long,
     val name: String,
-    val data: LocalDate,
-    val safetyDate: SafetyRegion,
+    val date: LocalDate,
+    val safetyRegion: SafetyRegion,
     val gpsLocation: String,
     val threatLevel: ThreatLevel,
-    val category: IncidentType,
+    val type: IncidentType,
     val status: Status
 ) {
 }
