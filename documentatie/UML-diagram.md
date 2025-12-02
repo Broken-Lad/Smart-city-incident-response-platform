@@ -2,8 +2,7 @@
 classDiagram
     class Incident {
         +String incidentnaam
-        +Threatlevel threatlevel
-        +Categorie categorie
+        +Long id
     }
 
     class Categorie {
