@@ -7,7 +7,9 @@ import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.mockito.Mockito.*
+import org.springframework.data.repository.findByIdOrNull
 import java.time.LocalDate
+import java.util.Optional
 
 class DashboardServiceTest {
 
@@ -21,28 +23,28 @@ class DashboardServiceTest {
             LocalDate.now(),
             SafetyRegion.UTRECHT,
             "52.0907, 5.1214",
-            Threatlevel.HIGH,
+            ThreatLevel.HIGH,
             IncidentType.WEATHER,
             Status.ONGOING
         )
 
-        `when`(repository.findByIdOrNull(1L)).thenReturn(incident)
+        `when`(repository.findById(1L)).thenReturn(Optional.of(incident))
 
         val result = service.getIncident(1L)
 
         assertEquals(incident, result)
-        verify(repository).findByIdOrNull(1L)
+        verify(repository).findById(1L)
     }
 
     @Test
     fun `getIncident throws IncidentNotFoundException when not found`() {
-        `when`(repository.findByIdOrNull(99L)).thenReturn(null)
+        `when`(repository.findById(99L)).thenReturn(Optional.empty())
 
         assertThrows<IncidentNotFoundException> {
             service.getIncident(99L)
         }
 
-        verify(repository).findByIdOrNull(99L)
+        verify(repository).findById(99L)
     }
 
     @Test
@@ -66,7 +68,7 @@ class DashboardServiceTest {
             date,
             SafetyRegion.ZUID_HOLLAND_ZUID,
             "51.833, 4.642",
-            Threatlevel.MEDIUM,
+            ThreatLevel.MEDIUM,
             IncidentType.TRAFFIC,
             Status.PLANNED
         )

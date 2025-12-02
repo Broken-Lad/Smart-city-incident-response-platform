@@ -8,20 +8,22 @@ import org.junit.jupiter.api.Test
 import org.mockito.Mockito.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
-import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.http.MediaType
+import org.springframework.test.context.bean.override.mockito.MockitoBean
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.get
 import org.springframework.test.web.servlet.post
 import java.time.LocalDate
 
 @WebMvcTest(DashboardController::class)
-class DashboardControllerTest(
-    @Autowired val mockMvc: MockMvc,
-    @Autowired val objectMapper: ObjectMapper
-) {
+class DashboardControllerTest{
+    @Autowired
+    lateinit var mockMvc: MockMvc
 
-    @MockBean
+    @Autowired
+    lateinit var objectMapper: ObjectMapper
+
+    @MockitoBean
     lateinit var service: DashboardService
 
     @Test
@@ -31,7 +33,7 @@ class DashboardControllerTest(
             LocalDate.of(2024,2,1),
             SafetyRegion.FLEVOLAND,
             "52.5, 5.7",
-            Threatlevel.HIGH,
+            ThreatLevel.HIGH,
             IncidentType.WEATHER,
             Status.ONGOING
         )
@@ -52,7 +54,7 @@ class DashboardControllerTest(
             LocalDate.of(2024,2,2),
             SafetyRegion.UTRECHT,
             "52.10, 5.11",
-            Threatlevel.LOW,
+            ThreatLevel.LOW,
             IncidentType.TRAFFIC,
             Status.PLANNED
         )
@@ -83,7 +85,7 @@ class DashboardControllerTest(
             dto.date,
             SafetyRegion.AMSTERDAM_AMSTELLAND,
             dto.gpsLocation,
-            Threatlevel.MEDIUM,
+            ThreatLevel.MEDIUM,
             IncidentType.CRIME,
             Status.RESOLVED
         )
