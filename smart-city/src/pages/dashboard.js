@@ -3,33 +3,33 @@ export function renderDashboard() {
     <div style="max-width:1200px;margin:2rem auto;">
       <h1>Incident Dashboard</h1>
       
-      <div style="display:flex;gap:1rem;margin-bottom:2rem;flex-wrap:wrap;">
-        <select id="filterThreat" style="padding:0.5rem;border:1px solid #ccc;border-radius:4px;cursor:pointer;">
+      <div">
+        <select id="filterThreat">
           <option value="">All Threat Levels</option>
           <option value="LOW">Low</option>
           <option value="MEDIUM">Medium</option>
           <option value="HIGH">High</option>
         </select>
         
-        <select id="filterType" style="padding:0.5rem;border:1px solid #ccc;border-radius:4px;cursor:pointer;">
+        <select id="filterType">
           <option value="">All Types</option>
           <option value="WEATHER">Weather</option>
           <option value="TRAFFIC">Traffic</option>
           <option value="CRIME">Crime</option>
         </select>
         
-        <select id="filterStatus" style="padding:0.5rem;border:1px solid #ccc;border-radius:4px;cursor:pointer;">
+        <select id="filterStatus">
           <option value="">All Status</option>
           <option value="ONGOING">Ongoing</option>
           <option value="RESOLVED">Resolved</option>
           <option value="PLANNED">Planned</option>
         </select>
         
-        <button id="refreshBtn" style="padding:0.5rem 1rem;background:#28a745;color:white;border:none;border-radius:4px;cursor:pointer;font-weight:bold;">Refresh</button>
+        <button id="refreshBtn">Refresh</button>
       </div>
       
-      <div id="incidentsContainer" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(350px,1fr));gap:1rem;">
-        <div style="grid-column:1/-1;text-align:center;padding:2rem;">Loading incidents...</div>
+      <div id="incidentsContainer">
+        <div>Loading incidents...</div>
       </div>
     </div>
 
@@ -43,10 +43,10 @@ export function renderDashboard() {
             allIncidents = await response.json();
             filterAndRender();
           } else {
-            document.getElementById('incidentsContainer').innerHTML = '<div style="grid-column:1/-1;text-align:center;color:#721c24;">Failed to load incidents</div>';
+            document.getElementById('incidentsContainer').innerHTML =>Failed to load incidents</div>';
           }
         } catch (error) {
-          document.getElementById('incidentsContainer').innerHTML = '<div style="grid-column:1/-1;text-align:center;color:#721c24;">Error: ' + error.message + '</div>';
+          document.getElementById('incidentsContainer').innerHTML =>Error: ' + error.message + '</div>';
         }
       }
       
@@ -80,23 +80,21 @@ export function renderDashboard() {
         });
         
         if (filtered.length === 0) {
-          document.getElementById('incidentsContainer').innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:2rem;color:#666;">No incidents found</div>';
+          document.getElementById('incidentsContainer').innerHTML = '<div>No inchidents found</div>';
           return;
         }
         
         const html = filtered.map(incident => {
-          const bgColor = getThreatColor(incident.threatLevel);
-          const textColor = getThreatTextColor(incident.threatLevel);
           return \`
-            <div style="border:1px solid #ddd;border-radius:8px;padding:1rem;background:\${bgColor};color:\${textColor};">
-              <h3 style="margin:0 0 0.5rem 0;">\${incident.name}</h3>
-              <div style="font-size:0.9rem;line-height:1.6;">
-                <p style="margin:0.25rem 0;"><strong>Type:</strong> \${incident.type}</p>
-                <p style="margin:0.25rem 0;"><strong>Threat Level:</strong> \${incident.threatLevel}</p>
-                <p style="margin:0.25rem 0;"><strong>Status:</strong> \${incident.status}</p>
-                <p style="margin:0.25rem 0;"><strong>Date:</strong> \${incident.date}</p>
-                <p style="margin:0.25rem 0;"><strong>Location:</strong> \${incident.gpsLocation}</p>
-                <p style="margin:0.25rem 0;"><strong>Region:</strong> \${incident.safetyRegion.replace(/_/g, ' ')}</p>
+            <div>
+              <h3>\${incident.name}</h3>
+              <div>
+                <p><strong>Type:</strong> \${incident.type}</p>
+                <p><strong>Threat Level:</strong> \${incident.threatLevel}</p>
+                <p><strong>Status:</strong> \${incident.status}</p>
+                <p><strong>Date:</strong> \${incident.date}</p>
+                <p><strong>Location:</strong> \${incident.gpsLocation}</p>
+                <p><strong>Region:</strong> \${incident.safetyRegion.replace(/_/g, ' ')}</p>
               </div>
             </div>
           \`;
