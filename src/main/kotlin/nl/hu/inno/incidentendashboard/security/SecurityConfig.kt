@@ -25,6 +25,7 @@ class SecurityConfig {
     fun filterChain(http: HttpSecurity): SecurityFilterChain {
         http
             .csrf { it.disable() }
+            .httpBasic { it.disable() }
             .authorizeHttpRequests { auth ->
                 auth.anyRequest().permitAll()
             }

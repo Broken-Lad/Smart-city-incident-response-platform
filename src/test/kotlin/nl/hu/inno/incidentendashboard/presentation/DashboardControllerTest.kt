@@ -4,10 +4,12 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import nl.hu.inno.incidentendashboard.application.DashboardService
 import nl.hu.inno.incidentendashboard.domain.*
 import nl.hu.inno.incidentendashboard.presentation.dto.IncidentRequest
+import nl.hu.inno.incidentendashboard.security.SecurityConfig
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
+import org.springframework.context.annotation.Import
 import org.springframework.http.MediaType
 import org.springframework.test.context.bean.override.mockito.MockitoBean
 import org.springframework.test.web.servlet.MockMvc
@@ -16,6 +18,7 @@ import org.springframework.test.web.servlet.post
 import java.time.LocalDate
 
 @WebMvcTest(DashboardController::class)
+@Import(SecurityConfig::class)
 class DashboardControllerTest{
     @Autowired
     lateinit var mockMvc: MockMvc
