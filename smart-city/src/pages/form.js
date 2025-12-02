@@ -90,42 +90,5 @@ export function renderForm(viteLogo, javascriptLogo) {
     </div>
 
     <img width="300" height="200" src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fmedia1.tenor.com%2Fm%2FnuuxiBetq8oAAAAd%2Fcharles-leclerc-inchident.gif&f=1&nofb=1&ipt=489efca06723ac8d6fe09524e88262dc01078e5319ec8b0d3c2668dcf2615eaa" alt="Just an inchident" />
-
-    <script>
-      document.getElementById('incidentForm').addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const messageDiv = document.getElementById('message');
-        
-        const formData = {
-          name: document.getElementById('name').value,
-          date: document.getElementById('date').value,
-          gpsLocation: document.getElementById('gpsLocation').value,
-          threatLevel: document.getElementById('threatLevel').value,
-          type: document.getElementById('type').value,
-          status: document.getElementById('status').value,
-          safetyRegion: document.getElementById('safetyRegion').value
-        };
-        
-        try {
-          const response = await fetch('/api/dashboard/incidents', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(formData)
-          });
-          
-          if (response.ok) {
-            messageDiv.textContent = 'Incident report submitted';
-            messageDiv.style.display = 'block';
-            document.getElementById('incidentForm').reset();
-          } else {
-            messageDiv.textContent = 'Error submitting incident: ' + response.statusText;
-            messageDiv.style.display = 'block';
-          }
-        } catch (error) {
-          messageDiv.textContent = 'Network error: ' + error.message;
-          messageDiv.style.display = 'block';
-        }
-      });
-    </script>
   `;
 }

@@ -1,11 +1,41 @@
+version: "3.9"
+
 services:
-  db:
-    image: postgres:16
+  backend:
+    image: ghcr.io/${OWNER}/smart-city-backend:latest
+    env_file: .env
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+    networks:
+      - smartnet
+
+  frontend:
+    image: ghcr.io/${OWNER}/smart-city-frontend:latest
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    networks:
+      - smartnet
+
+  postgres:
+    image: postgres:15
     environment:
+      POSTGRES_DB: hackathon
       POSTGRES_USER: hackathon
       POSTGRES_PASSWORD: hackathon
-      POSTGRES_DB: hackathon
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
     ports:
       - "15432:5432"
-    volumes:
-      - ./development/db:/docker-entrypoint-initdb.d
+    networks:
+      - smartnet
+
+networks:
+  smartnet:
+    driver: bridge
+
+volumes:
+  postgres_data:
