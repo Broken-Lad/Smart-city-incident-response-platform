@@ -29,7 +29,7 @@ export function renderDashboard() {
       </div>
       
       <div id="incidentsContainer">
-        <div>Loading incidents...</div>
+        <div>Loading inchident...</div>
       </div>
     </div>
 
@@ -43,7 +43,7 @@ export function renderDashboard() {
             allIncidents = await response.json();
             filterAndRender();
           } else {
-            document.getElementById('incidentsContainer').innerHTML =>Failed to load incidents</div>';
+            document.getElementById('incidentsContainer').innerHTML =>Failed to load inchident</div>';
           }
         } catch (error) {
           document.getElementById('incidentsContainer').innerHTML =>Error: ' + error.message + '</div>';
