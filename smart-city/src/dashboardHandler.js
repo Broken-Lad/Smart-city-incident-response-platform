@@ -1,3 +1,4 @@
+const API_BASE_URL = import.meta.env.VITE_SERVER_URI || 'http://localhost:8080';
 let allIncidents = [];
 
 export function initDashboardHandler() {
@@ -21,7 +22,7 @@ export function initDashboardHandler() {
 
 async function loadIncidents() {
   try {
-    const response = await fetch('/api/dashboard/incidents');
+    const response = await fetch(`${API_BASE_URL}/api/dashboard/incidents`);
 
     if (!response.ok) {
       document.getElementById('incidentsContainer').innerHTML =
@@ -55,17 +56,33 @@ function filterAndRender() {
     return;
   }
 
-  const html = filtered.map(i => `
-    <div>
-      <h3>${i.name}</h3>
-      <p><strong>Type:</strong> ${i.type}</p>
-      <p><strong>Threat Level:</strong> ${i.threatLevel}</p>
-      <p><strong>Status:</strong> ${i.status}</p>
-      <p><strong>Date:</strong> ${i.date}</p>
-      <p><strong>Location:</strong> ${i.gpsLocation}</p>
-      <p><strong>Region:</strong> ${i.safetyRegion.replace(/_/g, ' ')}</p>
-    </div>
+  // Render as a table
+  const tableHeader = `
+    <table class="incident-table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Threat Level</th>
+          <th>Status</th>
+          <th>Date</th>
+          <th>Location</th>
+          <th>Region</th>
+        </tr>
+      </thead>
+      <tbody>
+  `;
+  const tableRows = filtered.map(i => `
+    <tr>
+      <td>${i.name}</td>
+      <td>${i.type}</td>
+      <td>${i.threatLevel}</td>
+      <td>${i.status}</td>
+      <td>${i.date}</td>
+      <td>${i.gpsLocation}</td>
+      <td>${i.safetyRegion.replace(/_/g, ' ')}</td>
+    </tr>
   `).join('');
-
-  document.getElementById('incidentsContainer').innerHTML = html;
+  const tableFooter = '</tbody></table>';
+  document.getElementById('incidentsContainer').innerHTML = tableHeader + tableRows + tableFooter;
 }

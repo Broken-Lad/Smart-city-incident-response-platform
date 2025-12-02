@@ -1,3 +1,5 @@
+const API_BASE_URL = import.meta.env.VITE_SERVER_URI || 'http://localhost:8080';
+
 export function initFormHandler() {
   const form = document.getElementById('incidentForm');
   form.addEventListener('submit', onSubmitIncident);
@@ -17,7 +19,7 @@ async function onSubmitIncident(e) {
   };
 
   try {
-    const response = await fetch('/api/dashboard/incidents', {
+    const response = await fetch(`${API_BASE_URL}/api/dashboard/incidents`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json'},
       body: JSON.stringify(formData)
