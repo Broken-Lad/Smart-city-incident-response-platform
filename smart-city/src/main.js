@@ -3,7 +3,6 @@
 import './style.css';
 import viteLogo from '/vite.svg';
 import javascriptLogo from './javascript.svg';
-import { setupCounter } from './counter.js';
 import { renderHome } from './pages/home.js';
 import { renderAbout } from './pages/about.js';
 
@@ -21,7 +20,6 @@ function renderPage(page) {
     app.innerHTML = renderAbout();
   } else {
     app.innerHTML = renderHome(viteLogo, javascriptLogo);
-    setupCounter(document.querySelector('#counter'));
   }
   setActiveNav(page);
 }

@@ -32,9 +32,6 @@ export function renderHome(viteLogo, javascriptLogo) {
           <li>Feedback gevraagd, verwerkt en gedeeld</li>
         </ul>
       </div>
-      <div style="margin-top:2rem;">
-        <button id="counter" type="button"></button>
-      </div>
     </div>
   `;
 }
