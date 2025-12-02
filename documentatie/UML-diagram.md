@@ -5,30 +5,61 @@ classDiagram
         +Long id
         +Localdate date
         +Status status
+        +String gpsLocation
     }
 
-    class Categorie {
+    class IncidentType {
         <<enumeration>> 
-        Weer
-        Verkeer
-        Misdaad
+        WEATHER
+        TRAFFIC
+        CRIME
     }
 
     class Threatlevel {
         <<enumeration>>
-        Low
-        Medium
-        High
+        LOW
+        MEDIUM
+        HIGH
     }
 
     class Status {
         <<enumiration>>
-        Ongoing
-        Resolved
-        Planned
+        ONGOING
+        RESOLVED
+        PLANNED
     }
 
-    Incident --> Categorie : heeft
+    class SafetyRegion {
+        <<enumiration>>
+        GRONINGEN
+        FRIESLAND
+        DRENTHE
+        IJSSSELLAND
+        TWENTE
+        NOORD_EN_OOST_GELDERLAND
+        GELDERLAND_MIDDEN
+        GELDERLAND_ZUID
+        UTRECHT
+        NOORD_HOLLAND_NOORD
+        ZAANSTREEK_WATERLAND
+        KENNEMERLAND
+        AMSTERDAM_AMSTELLAND
+        GOOI_EN_VECHTSTREEK
+        HAAGLANDEN
+        HOLLANDS_MIDDEN
+        ROTTERDAM_RIJNMOND
+        ZUID_HOLLAND_ZUID
+        ZEELAND
+        MIDDEN_EN_WEST_BRABANT
+        BRABANT_NOORD
+        BRABANT_ZUIDOOST
+        LIMBURG_NOORD
+        ZUID_LIMBURG
+        FLEVOLAND
+    }
+
+    Incident --> IncidentType : heeft
     Incident --> Threatlevel : heeft
     Incident --> Status : heeft
+    Incident --> SafetyRegion : heeft
 ```

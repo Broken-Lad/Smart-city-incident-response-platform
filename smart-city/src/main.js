@@ -5,6 +5,7 @@ import viteLogo from '/vite.svg';
 import javascriptLogo from './javascript.svg';
 import { renderHome } from './pages/home.js';
 import { renderAbout } from './pages/about.js';
+import { renderForm } from './pages/form.js';
 
 function setActiveNav(page) {
   document.querySelectorAll('.top-nav a').forEach(a => {
@@ -18,6 +19,8 @@ function renderPage(page) {
   const app = document.getElementById('app');
     if (page === 'about') {
       app.innerHTML = renderAbout();
+    } else if (page === 'form') {
+      app.innerHTML = renderForm(viteLogo, javascriptLogo);
     } else if (page === 'threatmodel') {
       app.innerHTML = renderThreatModel();
   } else {
