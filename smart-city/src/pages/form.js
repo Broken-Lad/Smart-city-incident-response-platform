@@ -22,7 +22,6 @@ export function renderForm(viteLogo, javascriptLogo) {
           <label for="threatLevel">Threat Level:</label>
           <select id="threatLevel" name="threatLevel" required style="width:100%;padding:0.5rem;border:1px solid #ccc;border-radius:4px;">
             <option value="">-- Select --</option>
-            <option value="EMPTY">Empty</option>
             <option value="LOW">Low</option>
             <option value="MEDIUM">Medium</option>
             <option value="HIGH">High</option>
@@ -33,10 +32,13 @@ export function renderForm(viteLogo, javascriptLogo) {
           <label for="type">Incident Type:</label>
           <select id="type" name="type" required style="width:100%;padding:0.5rem;border:1px solid #ccc;border-radius:4px;">
             <option value="">-- Select --</option>
-            <option value="EMPTY">Empty</option>
             <option value="WEATHER">Weather</option>
             <option value="TRAFFIC">Traffic</option>
             <option value="CRIME">Crime</option>
+            <option value="CYBER_ATTACK">Cyber Attack</option>
+            <option value="FIRE">Fire</option>
+            <option value="MEDICAL_EMERGENCY">Medical Emergency</option>
+            <option value="POWER_OUTAGE">Power Outage</option>
           </select>
         </div>
         
@@ -44,7 +46,6 @@ export function renderForm(viteLogo, javascriptLogo) {
           <label for="status">Status:</label>
           <select id="status" name="status" required style="width:100%;padding:0.5rem;border:1px solid #ccc;border-radius:4px;">
             <option value="">-- Select --</option>
-            <option value="EMPTY">Empty</option>
             <option value="ONGOING">Ongoing</option>
             <option value="RESOLVED">Resolved</option>
             <option value="PLANNED">Planned</option>
@@ -55,7 +56,6 @@ export function renderForm(viteLogo, javascriptLogo) {
           <label for="safetyRegion">Safety Region:</label>
           <select id="safetyRegion" name="safetyRegion" required style="width:100%;padding:0.5rem;border:1px solid #ccc;border-radius:4px;">
             <option value="">-- Select --</option>
-            <option value="EMPTY">Empty</option>
             <option value="GRONINGEN">Groningen</option>
             <option value="FRIESLAND">Friesland</option>
             <option value="DRENTHE">Drenthe</option>
