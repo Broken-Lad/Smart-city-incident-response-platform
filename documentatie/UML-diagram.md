@@ -3,6 +3,8 @@ classDiagram
     class Incident {
         +String incidentnaam
         +Long id
+        +Localdate date
+        +Status status
     }
 
     class Categorie {
@@ -19,6 +21,14 @@ classDiagram
         High
     }
 
+    class Status {
+        <<enumiration>>
+        Ongoing
+        Resolved
+        Planned
+    }
+
     Incident --> Categorie : heeft
     Incident --> Threatlevel : heeft
+    Incident --> Status : heeft
 ```
