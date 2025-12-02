@@ -89,6 +89,8 @@ export function renderForm(viteLogo, javascriptLogo) {
       <div id="message" style="margin-top:1rem;padding:0.75rem;border-radius:4px;display:none;"></div>
     </div>
 
+    <img width="300" height="200" src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fmedia1.tenor.com%2Fm%2FnuuxiBetq8oAAAAd%2Fcharles-leclerc-inchident.gif&f=1&nofb=1&ipt=489efca06723ac8d6fe09524e88262dc01078e5319ec8b0d3c2668dcf2615eaa" alt="Just an inchident" />
+
     <script>
       document.getElementById('incidentForm').addEventListener('submit', async (e) => {
         e.preventDefault();
