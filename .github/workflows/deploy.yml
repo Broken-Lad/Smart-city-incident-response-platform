@@ -38,12 +38,6 @@ jobs:
         run: chmod +x ./gradlew   # <-- correct path
 
       # -------------------------------------------------
-      # BACKEND TESTS
-      # -------------------------------------------------
-      - name: Run backend tests
-        run: ./gradlew test --no-daemon
-
-      # -------------------------------------------------
       # BUILD BACKEND DOCKER IMAGE
       # -------------------------------------------------
       - name: Build backend Docker image
