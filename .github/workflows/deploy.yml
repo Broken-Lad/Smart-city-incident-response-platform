@@ -7,6 +7,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
+  OWNER: broken-lad   # <--- ALWAYS lowercase
 
 jobs:
   build:
@@ -16,13 +17,9 @@ jobs:
       packages: write
 
     steps:
-      # -------------------------------------------------
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # -------------------------------------------------
-      # BACKEND BUILD SETUP
-      # -------------------------------------------------
       - name: Set up JDK 21
         uses: actions/setup-java@v4
         with:
@@ -31,45 +28,33 @@ jobs:
           cache: gradle
 
       - name: Make Gradle executable
-        run: chmod +x ./gradlew   # <-- correct path
+        run: chmod +x ./gradlew
 
-      # -------------------------------------------------
-      # BUILD BACKEND DOCKER IMAGE
-      # -------------------------------------------------
       - name: Build backend Docker image
         run: |
           docker build \
             -f Dockerfile \
-            -t $REGISTRY/broken-lad/smart-city-backend:latest \
+            -t $REGISTRY/$OWNER/smart-city-backend:latest \
             .
 
-      # -------------------------------------------------
-      # BUILD FRONTEND DOCKER IMAGE (Vite)
-      # -------------------------------------------------
       - name: Build frontend Docker image
         run: |
           docker build \
             -f smart-city/Dockerfile \
-            -t $REGISTRY/broken-lad/smart-city-frontend:latest \
+            -t $REGISTRY/$OWNER/smart-city-frontend:latest \
             smart-city
 
-      # -------------------------------------------------
-      # LOGIN TO GHCR
-      # -------------------------------------------------
       - name: Login to GHCR
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
-          username: ${{ github.repository_owner }}
+          username: broken-lad
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      # -------------------------------------------------
-      # PUSH IMAGES
-      # -------------------------------------------------
       - name: Push images
         run: |
-          docker push $REGISTRY/broken-lad/smart-city-backend:latest
-          docker push $REGISTRY/broken-lad/smart-city-frontend:latest
+          docker push $REGISTRY/$OWNER/smart-city-backend:latest
+          docker push $REGISTRY/$OWNER/smart-city-frontend:latest
 
 
   deploy:
@@ -80,27 +65,21 @@ jobs:
       contents: read
 
     steps:
-      # -------------------------------------------------
-      - name: Checkout repo for compose
+      - name: Checkout repo
         uses: actions/checkout@v4
 
-      # -------------------------------------------------
       - name: Login to GHCR
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
-          username: ${{ github.repository_owner }}
+          username: broken-lad
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      # -------------------------------------------------
       - name: Pull images
         run: |
           docker pull ghcr.io/broken-lad/smart-city-backend:latest
           docker pull ghcr.io/broken-lad/smart-city-frontend:latest
 
-      # -------------------------------------------------
-      # BACKEND ENV VARS
-      # -------------------------------------------------
       - name: Create .env file
         run: |
           echo "SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/hackathon" > .env
@@ -109,9 +88,5 @@ jobs:
           echo "SPRING_JPA_HIBERNATE_DDL_AUTO=update" >> .env
           echo "SPRING_PROFILES_ACTIVE=prod" >> .env
 
-      # -------------------------------------------------
-      # RUN PRODUCTION COMPOSE
-      # -------------------------------------------------
       - name: Start containers
-        run: |
-          docker compose -f docker-compose.yml up -d --remove-orphans
+        run: docker compose -f docker-compose.yml up -d --remove-orphans
