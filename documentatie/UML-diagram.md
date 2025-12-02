@@ -10,9 +10,14 @@ classDiagram
 
     class IncidentType {
         <<enumeration>> 
+        EMPTY
         WEATHER
         TRAFFIC
         CRIME
+        CYBER_ATTACK
+        FIRE
+        MEDICAL_EMERGENCY
+        POWER_OUTAGE
     }
 
     class Threatlevel {
