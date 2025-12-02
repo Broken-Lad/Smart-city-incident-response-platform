@@ -1,15 +1,9 @@
 package nl.hu.inno.incidentendashboard.domain
 
-import jakarta.persistence.*
 import java.time.LocalDate
 
-@Entity
-@Table(name = "incidents")
 class Incident(
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long? = null,
-    
+    val id: Long = 0,
     val name: String,
     val date: LocalDate,
     val safetyRegion: SafetyRegion,
@@ -18,4 +12,26 @@ class Incident(
     val type: IncidentType,
     val status: Status
 ) {
+    companion object {
+        fun of(
+            name: String,
+            date: LocalDate,
+            safetyRegion: SafetyRegion,
+            gpsLocation: String,
+            threatLevel: ThreatLevel,
+            type: IncidentType,
+            status: Status
+        ): Incident {
+            return Incident(
+                id = 0,
+                name = name,
+                date = date,
+                safetyRegion = safetyRegion,
+                gpsLocation = gpsLocation,
+                threatLevel = threatLevel,
+                type = type,
+                status = status
+            )
+        }
+    }
 }

@@ -4,7 +4,7 @@ enum class SafetyRegion {
     GRONINGEN,
     FRIESLAND,
     DRENTHE,
-    IJSSSELLAND,
+    IJSSELLAND,
     TWENTE,
     NOORD_EN_OOST_GELDERLAND,
     GELDERLAND_MIDDEN,
