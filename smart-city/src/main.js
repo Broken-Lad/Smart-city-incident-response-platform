@@ -6,6 +6,8 @@ import { renderAbout } from './pages/about.js';
 import { renderForm } from './pages/form.js';
 import { renderDashboard } from './pages/dashboard.js';
 import { initFormHandler } from './formHandler.js';
+import { initDashboardHandler } from "./dashboardHandler.js";
+
 
 
 function setActiveNav(page) {
@@ -25,6 +27,7 @@ function renderPage(page) {
       initFormHandler();
     } else if (page === 'dashboard') {
       app.innerHTML = renderDashboard();
+      initDashboardHandler();
     } else if (page === 'threatmodel') {
       app.innerHTML = renderThreatModel();
   } else {
