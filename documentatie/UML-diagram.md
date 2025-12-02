@@ -17,16 +17,16 @@ classDiagram
 
     class Threatlevel {
         <<enumeration>>
-        Low
-        Medium
-        High
+        LOW
+        MEDIUM
+        HIGH
     }
 
     class Status {
         <<enumiration>>
-        Ongoing
-        Resolved
-        Planned
+        ONGOING
+        RESOLVED
+        PLANNED
     }
 
     class SafetyRegion {
