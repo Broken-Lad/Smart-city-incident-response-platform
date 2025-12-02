@@ -2,7 +2,7 @@
 classDiagram
     class Incident {
         +String incidentnaam
-        +int Threatlevel
+        +Threatlevel threatlevel
         +Categorie categorie
     }
 
@@ -13,5 +13,13 @@ classDiagram
         Misdaad
     }
 
+    class Threatlevel {
+        <<enumeration>>
+        Low
+        Medium
+        High
+    }
+
     Incident --> Categorie : heeft
+    Incident --> Threatlevel : heeft
 ```
