@@ -1,9 +1,15 @@
 package nl.hu.inno.incidentendashboard.domain
 
+import jakarta.persistence.*
 import java.time.LocalDate
 
+@Entity
+@Table(name = "incidents")
 class Incident(
-    val id: Long,
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    val id: Long? = null,
+    
     val name: String,
     val date: LocalDate,
     val safetyRegion: SafetyRegion,
