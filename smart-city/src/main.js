@@ -16,13 +16,16 @@ function setActiveNav(page) {
 
 function renderPage(page) {
   const app = document.getElementById('app');
-  if (page === 'about') {
-    app.innerHTML = renderAbout();
+    if (page === 'about') {
+      app.innerHTML = renderAbout();
+    } else if (page === 'threatmodel') {
+      app.innerHTML = renderThreatModel();
   } else {
     app.innerHTML = renderHome(viteLogo, javascriptLogo);
   }
   setActiveNav(page);
 }
+import { renderThreatModel } from './pages/threatmodel.js';
 
 function handleNav(e) {
   if (e.target.matches('.top-nav a')) {
