@@ -6,7 +6,7 @@ WORKDIR /app
 
 # Accept backend URL as build argument
 ARG API_URL
-ENV VITE_API_URL=backend:8080
+ENV VITE_API_URL=$API_URL
 
 # Copy dependency files
 COPY package*.json ./
