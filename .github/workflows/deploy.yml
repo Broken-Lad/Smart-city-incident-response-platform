@@ -1,0 +1,139 @@
+name: Build and Deploy Smart City App
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+env:
+  REGISTRY: ghcr.io
+
+jobs:
+  build:
+    # ---- RUNS ON GITHUB CLOUD RUNNER ----
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      # -------------------------------------------------
+      # CHECKOUT CODE
+      # -------------------------------------------------
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # -------------------------------------------------
+      # LOWERCASE OWNER FOR GHCR
+      # -------------------------------------------------
+      - name: Normalize repo owner
+        run: echo "OWNER_LC=$(echo '${{ github.repository_owner }}' | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
+
+      # -------------------------------------------------
+      # SETUP BUILD REQUIREMENTS
+      # -------------------------------------------------
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+          cache: gradle
+
+      - name: Make Gradle executable
+        run: chmod +x ./backend/gradlew
+
+      # -------------------------------------------------
+      # BACKEND TESTS
+      # -------------------------------------------------
+      - name: Run backend tests
+        run: cd backend && ./gradlew test --no-daemon
+
+      # -------------------------------------------------
+      # BUILD BACKEND IMAGE
+      # -------------------------------------------------
+      - name: Build backend Docker image
+        run: |
+          docker build \
+            -f backend/Dockerfile \
+            -t $REGISTRY/${{ env.OWNER_LC }}/smart-city-backend:latest \
+            backend
+
+      # -------------------------------------------------
+      # BUILD FRONTEND IMAGE
+      # -------------------------------------------------
+      - name: Build frontend Docker image
+        run: |
+          docker build \
+            -f frontend/Dockerfile \
+            -t $REGISTRY/${{ env.OWNER_LC }}/smart-city-frontend:latest \
+            frontend
+
+      # -------------------------------------------------
+      # LOGIN TO GHCR
+      # -------------------------------------------------
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      # -------------------------------------------------
+      # PUSH DOCKER IMAGES
+      # -------------------------------------------------
+      - name: Push images to GHCR
+        run: |
+          docker push $REGISTRY/${{ env.OWNER_LC }}/smart-city-backend:latest
+          docker push $REGISTRY/${{ env.OWNER_LC }}/smart-city-frontend:latest
+
+
+  deploy:
+    # ---- RUNS ON YOUR SELF-HOSTED SERVER ----
+    runs-on: self-hosted
+    needs: build
+    permissions:
+      packages: read
+      contents: read
+
+    steps:
+      # -------------------------------------------------
+      # CHECKOUT FOR COMPOSE FILES
+      # -------------------------------------------------
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      # -------------------------------------------------
+      # LOGIN TO GHCR
+      # -------------------------------------------------
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      # -------------------------------------------------
+      # PULL LATEST IMAGES
+      # -------------------------------------------------
+      - name: Pull Images
+        run: |
+          docker pull ghcr.io/${{ github.repository_owner }}/smart-city-backend:latest
+          docker pull ghcr.io/${{ github.repository_owner }}/smart-city-frontend:latest
+
+      # -------------------------------------------------
+      # WRITE ENV VARIABLES FOR BACKEND + DB
+      # -------------------------------------------------
+      - name: Generate .env file
+        run: |
+          echo "SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/hackathon" > .env
+          echo "SPRING_DATASOURCE_USERNAME=hackathon" >> .env
+          echo "SPRING_DATASOURCE_PASSWORD=hackathon" >> .env
+          echo "SPRING_PROFILES_ACTIVE=prod" >> .env
+
+      # -------------------------------------------------
+      # START DOCKER COMPOSE
+      # -------------------------------------------------
+      - name: Start containers
+        run: |
+          docker compose -f docker-compose.prod.yml up -d --remove-orphans
